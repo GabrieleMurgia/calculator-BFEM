@@ -73,3 +73,8 @@
 .calc-container > button:nth-last-child(17){
   grid-column: 1 / 3;
 }
+
+
+.calc-container > button:hover  { background: rgba(255, 255, 255, 0.966); } 
+
+.calc-container > button.operation:hover { background: rgba(244, 197, 143, 0.966); } 

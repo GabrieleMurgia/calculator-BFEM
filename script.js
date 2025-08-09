@@ -4,11 +4,12 @@
 const calculator = document.querySelector(".calc-container")
 const display = document.querySelector(".calc-header")
 const operation = document.querySelector(".calc-op")
+const oldV = document.querySelector(".calc-old-v")
 
 //EVENTS
 calculator.addEventListener("click",handleCalculator)
 
-const operations = ['C', '⟵', '÷', 'X', '-', '+', '='];
+const operations = ['C', '⟵', '÷', 'x', '-', '+', '='];
 
 function handleCalculator(e){
     if(e.target.tagName.toLowerCase() != 'button'){
@@ -16,11 +17,22 @@ function handleCalculator(e){
     }else{
     const value = e.target.innerHTML
 
+    debugger
+
     let isOperation = operations.includes(value) ? true : false
+    if(isOperation && value != '='){
+        operation.innerHTML = value
+    }
+    let op = operation.innerHTML
 
 
-    if(operation.innerHTML){
-        handleCalculation(value)
+    if(op && operations.includes(value)){
+        if(value == '='){
+            handleCalculation(value)
+        }else{
+            oldV.innerHTML = display.innerHTML
+            display.innerHTML = ""
+        }   
     }else{
         if(isOperation){
         handleOperation(value)
@@ -32,6 +44,10 @@ function handleCalculator(e){
 }
 
 function handleDisplay(value){
+
+    if(display.innerHTML == '0'){
+        display.innerHTML = ""
+    }
     display.innerHTML = display.innerHTML + value
 }
 
@@ -57,8 +73,8 @@ function handleOperation(op) {
 }
 
 function handleCalculation(value){
-    let v1 = parseFloat(display.innerHTML);
-    let v2 = parseFloat(value)
+    let v1 = parseFloat(oldV.innerHTML);
+    let v2 = parseFloat(display.innerHTML)
     let op = operation.innerHTML
 
 
@@ -76,7 +92,7 @@ function calculateOperation(v1,v2,op) {
       res = v1/v2
       break;
 
-    case 'X':
+    case 'x':
       res = v1*v2
       break;
 
@@ -88,11 +104,8 @@ function calculateOperation(v1,v2,op) {
       res = v1+v2
       break;
 
-    case '=':
-      break;
-
     default:
       break;
   }
-  return res;
+  return res
 }
